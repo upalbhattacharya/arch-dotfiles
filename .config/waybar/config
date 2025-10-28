@@ -2,13 +2,13 @@
   {
     "backlight": {
       "device": "acpi_video1",
-      "format": "{icon} {percent:3}%",
+      "format": "{icon}  {percent:3}%",
       "format-icons": [
         "󰃠"
       ]
     },
     "battery": {
-      "format": "{icon} {capacity}%",
+      "format": "{icon}  {capacity}%",
       "format-icons": {
         "charging": [
           "󱐋"
@@ -33,7 +33,7 @@
       }
     },
     "cpu": {
-      "format": "{icon} {usage:3}%",
+      "format": "{icon}  {usage:3}%",
       "format-icons": [
         ""
       ],
@@ -80,12 +80,6 @@
       "custom/separator",
       "pulseaudio",
       "custom/separator",
-      "custom/memory",
-      "custom/separator",
-      "cpu",
-      "custom/separator",
-      "temperature",
-      "custom/separator",
       "battery",
       "custom/separator",
       "network",
@@ -112,7 +106,7 @@
     },
     "position": "top",
     "pulseaudio": {
-      "format": "{icon} {volume:3}%",
+      "format": "{icon}  {volume:3}%",
       "format-icons": [
         ""
       ],

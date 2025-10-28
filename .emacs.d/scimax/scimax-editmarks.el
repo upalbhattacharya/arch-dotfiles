@@ -77,180 +77,180 @@
 ;;   (interactive)
 ;;   (describe-keymap sem-speed-map))
 
-(defvar sem-editmarks
-  `((delete :open-marker "{>-" :close-marker "-<}"
-	    :marker-face (:foreground "#F38BA8" :weight ultra-light :strike-through t)
-	    :face (:foreground "#F38BA8" :weight bold :strike-through t)
-	    :keymap sem-editmark-content-map
-	    :help-echo "Deletion. Right-click, s-click or s-o for menu."
-	    :accept-func sem-delete-editmark
-	    :reject-func sem-clear-editmark
-	    :export sem-export-delete)
+  (defvar sem-editmarks
+    `((delete :open-marker "{>-" :close-marker "-<}"
+  	    :marker-face (:foreground "#F38BA8" :weight ultra-light :strike-through t)
+  	    :face (:foreground "#F38BA8" :weight bold :strike-through t)
+  	    :keymap sem-editmark-content-map
+  	    :help-echo "Deletion. Right-click, s-click or s-o for menu."
+  	    :accept-func sem-delete-editmark
+  	    :reject-func sem-clear-editmark
+  	    :export sem-export-delete)
 
-    (insert :open-marker "{>+" :close-marker "+<}"
-	    :marker-face (:foreground "#94E2D5" :weight ultra-light)
-	    :face (:foreground "#94E2D5" :weight bold)
-	    :keymap sem-editmark-content-map
-	    :help-echo "Insertion. Right-click, s-click or s-o for menu."
-	    :accept-func sem-clear-editmark
-	    :reject-func sem-delete-editmark
-	    :export sem-export-insert)
+      (insert :open-marker "{>+" :close-marker "+<}"
+  	    :marker-face (:foreground "#94E2D5" :weight ultra-light)
+  	    :face (:foreground "#94E2D5" :weight bold)
+  	    :keymap sem-editmark-content-map
+  	    :help-echo "Insertion. Right-click, s-click or s-o for menu."
+  	    :accept-func sem-clear-editmark
+  	    :reject-func sem-delete-editmark
+  	    :export sem-export-insert)
 
-    (comment :open-marker "{>~" :close-marker "~<}"
-	     :marker-face (:foreground "#FAB387" :weight ultra-light)
-	     :face (:foreground "#FAB387" :weight bold)
-	     :keymap sem-editmark-content-map
-	     :help-echo "Comment. Right-click, s-click or s-o for menu."
-	     :accept-func sem-delete-editmark
-	     :reject-func sem-delete-editmark
-	     :include-author nil
-	     :export sem-export-comment)
+      (comment :open-marker "{>~" :close-marker "~<}"
+  	     :marker-face (:foreground "#FAB387" :weight ultra-light)
+  	     :face (:foreground "#FAB387" :weight bold)
+  	     :keymap sem-editmark-content-map
+  	     :help-echo "Comment. Right-click, s-click or s-o for menu."
+  	     :accept-func sem-delete-editmark
+  	     :reject-func sem-delete-editmark
+  	     :include-author nil
+  	     :export sem-export-comment)
 
-    (reply :open-marker "{r>" :close-marker "<r}"
-	   :marker-face (:foreground "#F5C2E7"  :weight ultra-light)
-	   :face (:foreground "#F5C2E7" :weight bold)
-	   :keymap sem-editmark-content-map
-	   :help-echo "Reply. Right-click, s-click or s-o for menu."
-	   :accept-func sem-delete-editmark
-	   :reject-func sem-delete-editmark
-	   :include-author nil
-	   :export sem-export-comment)
+      (reply :open-marker "{r>" :close-marker "<r}"
+  	   :marker-face (:foreground "#F5C2E7"  :weight ultra-light)
+  	   :face (:foreground "#F5C2E7" :weight bold)
+  	   :keymap sem-editmark-content-map
+  	   :help-echo "Reply. Right-click, s-click or s-o for menu."
+  	   :accept-func sem-delete-editmark
+  	   :reject-func sem-delete-editmark
+  	   :include-author nil
+  	   :export sem-export-comment)
 
-    (task :open-marker "{>*" :close-marker "*<}"
-	  :marker-face (:foreground "#F9E2AF" :weight ultra-light)
-	  :face (:foreground "#F9E2AF" :weight bold)
-	  :keymap sem-editmark-content-map
-	  :help-echo "Task. Right-click, s-click or s-o for menu."
-	  :accept-func sem-delete-editmark
-	  :export sem-export-task)
+      (task :open-marker "{>*" :close-marker "*<}"
+  	  :marker-face (:foreground "#F9E2AF" :weight ultra-light)
+  	  :face (:foreground "#F9E2AF" :weight bold)
+  	  :keymap sem-editmark-content-map
+  	  :help-echo "Task. Right-click, s-click or s-o for menu."
+  	  :accept-func sem-delete-editmark
+  	  :export sem-export-task)
 
-    (typo :open-marker "{>." :close-marker ".<}"
-	  :marker-face (:foreground "#B95F89"  :weight ultra-light)
-	  :face (:foreground "#B95F89" :weight bold)
-	  :keymap ,(let ((map (make-sparse-keymap)))
-		     (define-key map (kbd "4") 'sem-editmark-spellcheck-typo)
-		     (define-key map (kbd "<return>") 'sem-editmark-spellcheck-typo)
-		     map)
-	  :help-echo "Typo. Type 4 to fix this.")
+      (typo :open-marker "{>." :close-marker ".<}"
+  	  :marker-face (:foreground "#B95F89"  :weight ultra-light)
+  	  :face (:foreground "#B95F89" :weight bold)
+  	  :keymap ,(let ((map (make-sparse-keymap)))
+  		     (define-key map (kbd "4") 'sem-editmark-spellcheck-typo)
+  		     (define-key map (kbd "<return>") 'sem-editmark-spellcheck-typo)
+  		     map)
+  	  :help-echo "Typo. Type 4 to fix this.")
 
-    (blue-highlight :open-marker "{bh>" :close-marker "<bh}"
-		    :marker-face (:background "#74C7EC" :foreground "#1E1E2E" :weight ultra-light)
-		    ;; :face (:underline (:color "#74C7EC" :style line :position -10))
-            :face (:background "#74C7EC" :foreground "#1E1E2E")
-		    :keymap sem-editmark-content-map
-		    :help-echo "Blue highlight. Right-click, s-click or s-o for menu.")
+      (blue-highlight :open-marker "{bh>" :close-marker "<bh}"
+  		    :marker-face (:background "#74C7EC" :foreground "#1E1E2E" :weight ultra-light)
+  		    ;; :face (:underline (:color "#74C7EC" :style line :position -10))
+              :face (:background "#74C7EC" :foreground "#1E1E2E")
+  		    :keymap sem-editmark-content-map
+  		    :help-echo "Blue highlight. Right-click, s-click or s-o for menu.")
 
-    (green-highlight :open-marker "{hg>" :close-marker "<hg}"
-		     :marker-face (:background "#A6E3A1" :foreground "#1E1E2E"  :weight ultra-light)
-		     ;; :face (:underline (:color "#A6E3A1" :style line :position -10))
-             :face (:background "#A6E3A1" :foreground "#1E1E2E")
-		     :keymap sem-editmark-content-map
-		     :help-echo "green highlight. Right-click, s-click or s-o for menu.")
+      (green-highlight :open-marker "{hg>" :close-marker "<hg}"
+  		     :marker-face (:background "#A6E3A1" :foreground "#1E1E2E"  :weight ultra-light)
+  		     ;; :face (:underline (:color "#A6E3A1" :style line :position -10))
+               :face (:background "#A6E3A1" :foreground "#1E1E2E")
+  		     :keymap sem-editmark-content-map
+  		     :help-echo "green highlight. Right-click, s-click or s-o for menu.")
 
-    (purple-highlight :open-marker "{hp>" :close-marker "<hp}"
-		    :marker-face (:background "#CBA6F7" :foreground "#1E1E2E"  :weight ultra-light)
-		    ;; :face (:underline (:color "#CBA6F7" :style line :position -10))
-		    :face (:background "#CBA6F7" :foreground "#1E1E2E")
-  	      :keymap sem-editmark-content-map
-		    :help-echo "purple highlight. Right-click, s-click or s-o for menu.")
+      (purple-highlight :open-marker "{hp>" :close-marker "<hp}"
+  		    :marker-face (:background "#CBA6F7" :foreground "#1E1E2E"  :weight ultra-light)
+  		    ;; :face (:underline (:color "#CBA6F7" :style line :position -10))
+  		    :face (:background "#CBA6F7" :foreground "#1E1E2E")
+    	      :keymap sem-editmark-content-map
+  		    :help-echo "purple highlight. Right-click, s-click or s-o for menu.")
 
-    (yellow-highlight :open-marker "{hy>" :close-marker "<hy}"
-		      :marker-face (:background "#F9E2AF" :foreground "#1E1E2E" :weight ultra-light)
-		      ;; :face (:underline (:color "#F9E2AF" :style line :position -10))
-              :face (:background "#F9E2AF" :foreground "#1E1E2E")
-              :set-face-foreground ('org-link :foreground "#1E1E2E")
-		      :keymap sem-editmark-content-map
-		      :help-echo "yellow highlight. Right-click, s-click or s-o for menu.")
+      (yellow-highlight :open-marker "{hy>" :close-marker "<hy}"
+  		      :marker-face (:background "#F9E2AF" :foreground "#1E1E2E" :weight ultra-light)
+  		      ;; :face (:underline (:color "#F9E2AF" :style line :position -10))
+                :face (:background "#F9E2AF" :foreground "#1E1E2E")
+                :set-face-foreground ('org-link :foreground "#1E1E2E")
+  		      :keymap sem-editmark-content-map
+  		      :help-echo "yellow highlight. Right-click, s-click or s-o for menu.")
+      
+      (red-highlight :open-marker "{hr>" :close-marker "<hr}"
+    	      :marker-face (:background "#F38BA8" :foreground "#1E1E2E" :weight ultra-light)
+    	      ;; :face (:underline (:color "#F38BA8" :style line :position -10))
+              :face (:background "#F38BA8" :foreground "#1E1E2E")
+    	      :keymap sem-editmark-content-map
+    	      :help-echo "red highlight. Right-click, s-click or s-o for menu.")
+      
+      (yellow-annotation :open-marker "{ay>" :close-marker "<ay}"
+  		 :marker-face (:foreground "#F9E2AF" :background "#1E1E2E" :weight ultra-light)
+  		 :face (:foreground "#F9E2AF" :background "#1E1E2E")
+  	     :keymap sem-editmark-content-map
+  	     :help-echo "Yellow annotation. Right-click, s-click or s-o for menu."
+  	     :accept-func sem-delete-editmark
+  	     :reject-func sem-delete-editmark
+  	     :include-author nil
+  	     :export sem-export-comment)
+      
+      (blue-annotation :open-marker "{ab>" :close-marker "<ab}"
+  		 :marker-face (:foreground "#74C7EC" :background "#1E1E2E" :weight ultra-light)
+  		 :face (:foreground "#74C7EC" :background "#1E1E2E")
+  	     :keymap sem-editmark-content-map
+  	     :help-echo "Blue annotation. Right-click, s-click or s-o for menu."
+  	     :accept-func sem-delete-editmark
+  	     :reject-func sem-delete-editmark
+  	     :include-author nil
+  	     :export sem-export-comment)
+      
+      (green-annotation :open-marker "{ag>" :close-marker "<ag}"
+  		 :marker-face (:foreground "#A6E3A1" :background "#1E1E2E" :weight ultra-light)
+  		 :face (:foreground "#A6E3A1" :background "#1E1E2E")
+  	     :keymap sem-editmark-content-map
+  	     :help-echo "Green annotation. Right-click, s-click or s-o for menu."
+  	     :accept-func sem-delete-editmark
+  	     :reject-func sem-delete-editmark
+  	     :include-author nil
+  	     :export sem-export-comment)
+      
+      (purple-annotation :open-marker "{ap>" :close-marker "<ap}"
+  		 :marker-face (:foreground "#CBA6F7" :background "#1E1E2E" :weight ultra-light)
+  		 :face (:foreground "#CBA6F7" :background "#1E1E2E")
+  	     :keymap sem-editmark-content-map
+  	     :help-echo "Purple annotation. Right-click, s-click or s-o for menu."
+  	     :accept-func sem-delete-editmark
+  	     :reject-func sem-delete-editmark
+  	     :include-author nil
+  	     :export sem-export-comment)
+
+    (red-annotation :open-marker "{ar>" :close-marker "<ar}" :marker-face
+  	 (:foreground "#F38BA8" :background "#1E1E2E" :weight ultra-light) :face
+  	 (:foreground "#F38BA8" :background "#1E1E2E") :keymap
+  	 sem-editmark-content-map :help-echo "Red annotation. Right-click,
+  	 s-click or s-o for menu."  :accept-func sem-delete-editmark
+  	 :reject-func sem-delete-editmark :include-author nil :export
+  	 sem-export-comment)
     
-    (red-highlight :open-marker "{hr>" :close-marker "<hr}"
-  	      :marker-face (:background "#F38BA8" :foreground "#1E1E2E" :weight ultra-light)
-  	      ;; :face (:underline (:color "#F38BA8" :style line :position -10))
-            :face (:background "#F38BA8" :foreground "#1E1E2E")
-  	      :keymap sem-editmark-content-map
-  	      :help-echo "red highlight. Right-click, s-click or s-o for menu.")
-    
-    (yellow-annotation :open-marker "{ay>" :close-marker "<ay}"
-		 :marker-face (:foreground "#F9E2AF" :background "#1E1E2E" :weight ultra-light)
-		 :face (:foreground "#F9E2AF" :background "#1E1E2E")
-	     :keymap sem-editmark-content-map
-	     :help-echo "Yellow annotation. Right-click, s-click or s-o for menu."
-	     :accept-func sem-delete-editmark
-	     :reject-func sem-delete-editmark
-	     :include-author nil
-	     :export sem-export-comment)
-    
-    (blue-annotation :open-marker "{ab>" :close-marker "<ab}"
-		 :marker-face (:foreground "#74C7EC" :background "#1E1E2E" :weight ultra-light)
-		 :face (:foreground "#74C7EC" :background "#1E1E2E")
-	     :keymap sem-editmark-content-map
-	     :help-echo "Blue annotation. Right-click, s-click or s-o for menu."
-	     :accept-func sem-delete-editmark
-	     :reject-func sem-delete-editmark
-	     :include-author nil
-	     :export sem-export-comment)
-    
-    (green-annotation :open-marker "{ag>" :close-marker "<ag}"
-		 :marker-face (:foreground "#A6E3A1" :background "#1E1E2E" :weight ultra-light)
-		 :face (:foreground "#A6E3A1" :background "#1E1E2E")
-	     :keymap sem-editmark-content-map
-	     :help-echo "Green annotation. Right-click, s-click or s-o for menu."
-	     :accept-func sem-delete-editmark
-	     :reject-func sem-delete-editmark
-	     :include-author nil
-	     :export sem-export-comment)
-    
-    (purple-annotation :open-marker "{ap>" :close-marker "<ap}"
-		 :marker-face (:foreground "#CBA6F7" :background "#1E1E2E" :weight ultra-light)
-		 :face (:foreground "#CBA6F7" :background "#1E1E2E")
-	     :keymap sem-editmark-content-map
-	     :help-echo "Purple annotation. Right-click, s-click or s-o for menu."
-	     :accept-func sem-delete-editmark
-	     :reject-func sem-delete-editmark
-	     :include-author nil
-	     :export sem-export-comment)
+       (audio :open-marker "{a>" :close-marker "<a}"
+  	    :marker-face (:foreground "violet" :weight ultra-light)
+  	    :face (:foreground "violet" :weight bold)
+  	    :mouse-face highlight
+  	    :keymap sem-editmark-audio-map
+  	    :help-echo sem-audio-tooltip
+  	    :accept-func sem-delete-editmark
+  	    :reject-func sem-clear-editmark)
 
-  (red-annotation :open-marker "{ar>" :close-marker "<ar}" :marker-face
-	 (:foreground "#F38BA8" :background "#1E1E2E" :weight ultra-light) :face
-	 (:foreground "#F38BA8" :background "#1E1E2E") :keymap
-	 sem-editmark-content-map :help-echo "Red annotation. Right-click,
-	 s-click or s-o for menu."  :accept-func sem-delete-editmark
-	 :reject-func sem-delete-editmark :include-author nil :export
-	 sem-export-comment)
-  
-     (audio :open-marker "{a>" :close-marker "<a}"
-	    :marker-face (:foreground "violet" :weight ultra-light)
-	    :face (:foreground "violet" :weight bold)
-	    :mouse-face highlight
-	    :keymap sem-editmark-audio-map
-	    :help-echo sem-audio-tooltip
-	    :accept-func sem-delete-editmark
-	    :reject-func sem-clear-editmark)
+       (video :open-marker "{v>"
+  	   :close-marker "<v}"
+  	   :help-echo "A video editmark"
+  	   :keymap sem-editmark-video-map
+  	   :marker-face (:foreground "MediumOrchid4" :weight ultra-light)
+  	   :face (:foreground "MediumOrchid4" :weight bold)
+  	   :mouse-face highlight)
 
-     (video :open-marker "{v>"
-	   :close-marker "<v}"
-	   :help-echo "A video editmark"
-	   :keymap sem-editmark-video-map
-	   :marker-face (:foreground "MediumOrchid4" :weight ultra-light)
-	   :face (:foreground "MediumOrchid4" :weight bold)
-	   :mouse-face highlight)
+      (file :open-marker "{>|"
+  	  :close-marker "|<}"
+  	  :marker-face (:foreground "cadet blue" :weight ultra-light)
+  	  :face (:foreground "cadet blue" :weight bold)
+  	  :help-echo "File location. s-↓ to open. s-→ to open in other window."
+  	  :include-author nil
+  	  :export sem-file-export
+  	  :keymap ,(let ((map (make-sparse-keymap)))
+  		     (define-key map (kbd "s-<down>") 'sem-follow-file)
+  		     (define-key map (kbd "s-<right>") (lambda ()
+  							 (interactive)
+  							 (sem-follow-file t)))
+  		     (define-key map (kbd "C-n") 'sem-next-editmark)
+  		     (define-key map (kbd "C-p") 'sem-previous-editmark)
+  		     map)))
 
-    (file :open-marker "{>|"
-	  :close-marker "|<}"
-	  :marker-face (:foreground "cadet blue" :weight ultra-light)
-	  :face (:foreground "cadet blue" :weight bold)
-	  :help-echo "File location. s-↓ to open. s-→ to open in other window."
-	  :include-author nil
-	  :export sem-file-export
-	  :keymap ,(let ((map (make-sparse-keymap)))
-		     (define-key map (kbd "s-<down>") 'sem-follow-file)
-		     (define-key map (kbd "s-<right>") (lambda ()
-							 (interactive)
-							 (sem-follow-file t)))
-		     (define-key map (kbd "C-n") 'sem-next-editmark)
-		     (define-key map (kbd "C-p") 'sem-previous-editmark)
-		     map)))
-
-  "The default editmarks")
+    "The default editmarks")
 
 (defun sem-editmark-plist-from-string (content)
   "Convert CONTENT into a plist.
@@ -949,108 +949,108 @@ content: ${content}"
 				      (substring s 0 1)))
 				   (split-string (or (user-full-name) "Not a name"))))))
 
-(defun sem-insert (type)
-  "Insert an editmark of TYPE.
-TYPE should be a symbol corresponding to the car of an entry in `sem-editmarks'."
-  (interactive (list (completing-read "Type: " (mapcar 'car sem-editmarks))))
-  (if (not sem-mode) (sem-mode))
-  (when (get-text-property (point) 'sem-type)
-    (error "You are in an editmark. Nesting editmarks is not allowed."))
+  (defun sem-insert (type)
+    "Insert an editmark of TYPE.
+  TYPE should be a symbol corresponding to the car of an entry in `sem-editmarks'."
+    (interactive (list (completing-read "Type: " (mapcar 'car sem-editmarks))))
+    (if (not sem-mode) (sem-mode))
+    (when (get-text-property (point) 'sem-type)
+      (error "You are in an editmark. Nesting editmarks is not allowed."))
 
-  (let ((entry (assoc (intern-soft type) sem-editmarks))
-	(inhibit-modification-hooks t))
-    ;; we do not track changes when inserting so we don't trigger nested
-    ;; editmarks when editing editmarks.
-    (cond
-     ;; this is a special case
-     ((eq type 'audio)
-      (sem-audio-insert))
-     ((eq type 'video)
-      (sem-video-insert))
-     ;; We have an active region we want to apply
-     ((region-active-p)
-      (let* ((bounds (list (region-beginning) (region-end)))
-	     (start (apply 'min bounds))
-	     (end (apply 'max bounds))
-	     (lines))
-	;; make sure we are not crossing any existing markups
-	(when (or (get-text-property (region-beginning) 'sem-type)
-		  (get-text-property (region-end) 'sem-type)
-		  (not (= (region-end)
-			  (next-single-property-change
-			   (region-beginning)
-			   'sem-type
-			   nil
-			   (region-end)))))
-	  (error "You are in an editmark. Nesting editmarks is not allowed."))
-
-	(cl--set-buffer-substring
-	 start end
-	 (concat (plist-get (cdr entry) :open-marker)
-		 (when (plist-get (cdr entry) :include-author)
-		   (concat " " (sem-author) " "))
-		 (buffer-substring start end)
-		 (plist-get (cdr entry) :close-marker)))))
-     ;; We are on a word with no region selected
-     ((thing-at-point 'word)
+    (let ((entry (assoc (intern-soft type) sem-editmarks))
+  	(inhibit-modification-hooks t))
+      ;; we do not track changes when inserting so we don't trigger nested
+      ;; editmarks when editing editmarks.
       (cond
-       ;; beginning of a word
-       ((looking-back "\\<" 1)
-	(insert (plist-get (cdr entry) :open-marker)
-		(when (plist-get (cdr entry) :include-author)
-		  (concat " " (sem-author) " ")))
-	(re-search-forward "\\>")
-	(insert (plist-get (cdr entry) :close-marker)))
-       ;; end of a word
-       ((looking-back "\\>" 1)
-	(insert (concat (plist-get (cdr entry) :open-marker)
-			(when (plist-get (cdr entry) :include-author)
-			  (concat " " (sem-author) " "))
-			(plist-get (cdr entry) :close-marker)))
-	(backward-char (length (plist-get (cdr entry) :close-marker))))
-       ;; somewhere else in a word
+       ;; this is a special case
+       ((eq type 'audio)
+        (sem-audio-insert))
+       ((eq type 'video)
+        (sem-video-insert))
+       ;; We have an active region we want to apply
+       ((region-active-p)
+        (let* ((bounds (list (region-beginning) (region-end)))
+  	     (start (apply 'min bounds))
+  	     (end (apply 'max bounds))
+  	     (lines))
+  	;; make sure we are not crossing any existing markups
+  	(when (or (get-text-property (region-beginning) 'sem-type)
+  		  (get-text-property (region-end) 'sem-type)
+  		  (not (= (region-end)
+  			  (next-single-property-change
+  			   (region-beginning)
+  			   'sem-type
+  			   nil
+  			   (region-end)))))
+  	  (error "You are in an editmark. Nesting editmarks is not allowed."))
+
+  	(cl--set-buffer-substring
+  	 start end
+  	 (concat (plist-get (cdr entry) :open-marker)
+  		 (when (plist-get (cdr entry) :include-author)
+  		   (concat " " (sem-author) " "))
+  		 (buffer-substring start end)
+  		 (plist-get (cdr entry) :close-marker)))))
+       ;; We are on a word with no region selected
+       ((thing-at-point 'word)
+        (cond
+         ;; beginning of a word
+         ((looking-back "\\<" 1)
+  	(insert (plist-get (cdr entry) :open-marker)
+  		(when (plist-get (cdr entry) :include-author)
+  		  (concat " " (sem-author) " ")))
+  	(re-search-forward "\\>")
+  	(insert (plist-get (cdr entry) :close-marker)))
+         ;; end of a word
+         ((looking-back "\\>" 1)
+  	(insert (concat (plist-get (cdr entry) :open-marker)
+  			(when (plist-get (cdr entry) :include-author)
+  			  (concat " " (sem-author) " "))
+  			(plist-get (cdr entry) :close-marker)))
+  	(backward-char (length (plist-get (cdr entry) :close-marker))))
+         ;; somewhere else in a word
+         (t
+  	(re-search-backward "\\<")
+  	(insert (plist-get (cdr entry) :open-marker)
+  		(if (plist-get (cdr entry) :include-author)
+  		    (concat " " (sem-author) " ")
+  		  ""))
+  	(re-search-forward "\\>")
+  	(insert (plist-get (cdr entry) :close-marker)))))
+       ;; not at a word or region, insert markers and put point between
+       ;; them.
        (t
-	(re-search-backward "\\<")
-	(insert (plist-get (cdr entry) :open-marker)
-		(if (plist-get (cdr entry) :include-author)
-		    (concat " " (sem-author) " ")
-		  ""))
-	(re-search-forward "\\>")
-	(insert (plist-get (cdr entry) :close-marker)))))
-     ;; not at a word or region, insert markers and put point between
-     ;; them.
-     (t
-      (insert (concat (plist-get (cdr entry) :open-marker)
-		      (when (plist-get (cdr entry) :include-author)
-			(concat " " (sem-author) " "))
-		      (plist-get (cdr entry) :close-marker)))
-      ;; goto middle
-      (backward-char (length (plist-get (cdr entry) :close-marker))))))
-  ;; Should we add a local variable so the file opens in sem-mode?
-  (hack-local-variables)
-  ;; This is more complicated than I thought it should be. When I try to just
-  ;; add a file-local variable, it often fails on new files because of some
-  ;; weird issue in comment-region. I hacked this together, and it seems more
-  ;; reliable.
-  ;; (when (null file-local-variables-alist)
-  ;;   (let ((mode major-mode))
-  ;;     (save-excursion
-  ;;   (save-restriction
-  ;;     (widen)
-  ;;     (goto-char (point-max))
-  ;;     (unless (bolp)
-  ;;       (insert "\n\n"))
-  ;;     (when (eq mode 'org-mode)
-  ;;       (insert "* Local Variables :noexport:\n\n"))
-  ;;     (insert (with-temp-buffer
-  ;;   	    (funcall mode) 
-  ;;   	    (insert "Local Variables:\nEnd:\n")
-  ;;   	    (comment-region (point-min) (point-max))
-  ;;   	    (buffer-string)))))))
-  ;; (when (not (member '(eval sem-mode) file-local-variables-alist))
-  ;;   (save-excursion
-  ;;     (add-file-local-variable 'eval '(sem-mode))))
-  )
+        (insert (concat (plist-get (cdr entry) :open-marker)
+  		      (when (plist-get (cdr entry) :include-author)
+  			(concat " " (sem-author) " "))
+  		      (plist-get (cdr entry) :close-marker)))
+        ;; goto middle
+        (backward-char (length (plist-get (cdr entry) :close-marker))))))
+    ;; Should we add a local variable so the file opens in sem-mode?
+    (hack-local-variables)
+    ;; This is more complicated than I thought it should be. When I try to just
+    ;; add a file-local variable, it often fails on new files because of some
+    ;; weird issue in comment-region. I hacked this together, and it seems more
+    ;; reliable.
+    ;; (when (null file-local-variables-alist)
+    ;;   (let ((mode major-mode))
+    ;;     (save-excursion
+    ;;   (save-restriction
+    ;;     (widen)
+    ;;     (goto-char (point-max))
+    ;;     (unless (bolp)
+    ;;       (insert "\n\n"))
+    ;;     (when (eq mode 'org-mode)
+    ;;       (insert "* Local Variables :noexport:\n\n"))
+    ;;     (insert (with-temp-buffer
+    ;;   	    (funcall mode) 
+    ;;   	    (insert "Local Variables:\nEnd:\n")
+    ;;   	    (comment-region (point-min) (point-max))
+    ;;   	    (buffer-string)))))))
+    ;; (when (not (member '(eval sem-mode) file-local-variables-alist))
+    ;;   (save-excursion
+    ;;     (add-file-local-variable 'eval '(sem-mode))))
+    )
 
 (defun sem-delete-editmark ()
   "Remove the editmark, markers and content."
@@ -1377,70 +1377,70 @@ editmark is the full text including the markers."
       (font-lock-fontify-region (car bounds) (cdr bounds)))
     (sem-clear-editmark)))
 
-(defhydra sem-insert (:color blue :hint nil :columns 3)
-     "Editmark insert"
-     ("s" (sem-insert 'audio) "audio")
-     ("v" (sem-insert 'video) "video")
-     ("m" (sem-insert 'comment) "comment")
-     ("r" (sem-insert 'reply) "reply")
-     ("i" (sem-insert 'insert) "insert")
-     ("d" (sem-insert 'delete) "delete")
-     ("f" (sem-insert-file-editmark) "file")
-     ("t" (sem-insert 'typo) "typo")
-     ("k" (sem-insert 'task) "task")
-     ("c" (insert "✓") "checkmark")
-     ("2" (sem-insert 'contact) "contact")
-     ("hb" (sem-insert 'blue-highlight) "blue")
-     ("hg" (sem-insert 'green-highlight) "green")
-     ("hy" (sem-insert 'yellow-highlight) "yellow")
-     ("hr" (sem-insert 'red-highlight) "red")
-     ("hp" (sem-insert 'purple-highlight) "purple")
-     ("ay" (sem-insert 'yellow-annotation) "yellow")
-     ("ab" (sem-insert 'blue-annotation) "blue")
-     ("ag" (sem-insert 'green-annotation) "green")
-     ("ar" (sem-insert 'red-annotation) "red")
-     ("ap" (sem-insert 'purple-annotation) "purple")
-     ("n" sem-next-editmark "next")
-     ("p" sem-previous-editmark "previous")
-     ("g" sem-track-change-mode "toggle track changes")
-     ("l" sem-editmark-display "List all")
-     ("q" sem-jump-to-editmark "Jump to editmark")
-     ("V" sem-jump-to-visible-editmark "Jump to visible")
-     ("A" sem-action/body "action menu"))
+      (defhydra sem-insert (:color blue :hint nil :columns 3)
+        "Editmark insert"
+        ("s" (sem-insert 'audio) "audio")
+        ("v" (sem-insert 'video) "video")
+        ("m" (sem-insert 'comment) "comment")
+        ("r" (sem-insert 'reply) "reply")
+        ("i" (sem-insert 'insert) "insert")
+        ("d" (sem-insert 'delete) "delete")
+        ("f" (sem-insert-file-editmark) "file")
+        ("t" (sem-insert 'typo) "typo")
+        ("k" (sem-insert 'task) "task")
+        ("c" (insert "✓") "checkmark")
+        ("2" (sem-insert 'contact) "contact")
+        ("hb" (sem-insert 'blue-highlight) "blue")
+        ("hg" (sem-insert 'green-highlight) "green")
+        ("hy" (sem-insert 'yellow-highlight) "yellow")
+        ("hr" (sem-insert 'red-highlight) "red")
+        ("hp" (sem-insert 'purple-highlight) "purple")
+        ("ay" (sem-insert 'yellow-annotation) "yellow")
+        ("ab" (sem-insert 'blue-annotation) "blue")
+        ("ag" (sem-insert 'green-annotation) "green")
+        ("ar" (sem-insert 'red-annotation) "red")
+        ("ap" (sem-insert 'purple-annotation) "purple")
+        ("n" sem-next-editmark "next")
+        ("p" sem-previous-editmark "previous")
+        ("g" sem-track-change-mode "toggle track changes")
+        ("l" sem-editmark-display "List all")
+        ("q" sem-jump-to-editmark "Jump to editmark")
+        ("V" sem-jump-to-visible-editmark "Jump to visible")
+        ("A" sem-action/body "action menu"))
 
 
-   (defhydra sem-action (:color red :hint nil :columns 3)
-     "Editmark action"
-     ("a" sem-accept-editmark "accept")
-     ("A" sem-accept-and-next-editmark "accept and next")
-     ("C-a" sem-accept-all-editmarks "accept all")
-     ("r" sem-reject-editmark "reject")
-     ("R" sem-reject-and-next-editmark "reject and next")
-     ("C-r" sem-reject-all-editmarks "reject all")
-     ("c" sem-clear-editmark "clear")
-     ("C" sem-clear-and-next-editmark "clear and next")
-     ("C-c" sem-clear-all-editmarks "clear all")
-     ("d" sem-delete-editmark "delete")
-     ("D" sem-delete-and-next-editmark "delete and next")
-     ("C-d" sem-delete-all-editmarks "Delete all")
-     ("l" sem-editmark-display "List all")
-     ("n" sem-next-editmark "next")
-     ("p" sem-previous-editmark "previous")
-     ("4" sem-editmark-spellcheck-typo "spellcheck typo")
-     ("q" sem-jump-to-editmark "Jump to editmark")
-     ("v" sem-jump-to-visible-editmark "Jump to visible")
-     ("g" sem-track-change-mode "toggle track changes"))
+      (defhydra sem-action (:color red :hint nil :columns 3)
+        "Editmark action"
+        ("a" sem-accept-editmark "accept")
+        ("A" sem-accept-and-next-editmark "accept and next")
+        ("C-a" sem-accept-all-editmarks "accept all")
+        ("r" sem-reject-editmark "reject")
+        ("R" sem-reject-and-next-editmark "reject and next")
+        ("C-r" sem-reject-all-editmarks "reject all")
+        ("c" sem-clear-editmark "clear")
+        ("C" sem-clear-and-next-editmark "clear and next")
+        ("C-c" sem-clear-all-editmarks "clear all")
+        ("d" sem-delete-editmark "delete")
+        ("D" sem-delete-and-next-editmark "delete and next")
+        ("C-d" sem-delete-all-editmarks "Delete all")
+        ("l" sem-editmark-display "List all")
+        ("n" sem-next-editmark "next")
+        ("p" sem-previous-editmark "previous")
+        ("4" sem-editmark-spellcheck-typo "spellcheck typo")
+        ("q" sem-jump-to-editmark "Jump to editmark")
+        ("v" sem-jump-to-visible-editmark "Jump to visible")
+        ("g" sem-track-change-mode "toggle track changes"))
 
 
-   (defun sem-hydra ()
-     "Open the editmark hydras depending on context of point.
-   On an editmark open the action menu, otherwise the insert menu."
-     (interactive)
-     (if (get-text-property (point) 'sem-type)
-         (sem-action/body)
-       (sem-insert/body)))
+      (defun sem-hydra ()
+        "Open the editmark hydras depending on context of point.
+      On an editmark open the action menu, otherwise the insert menu."
+        (interactive)
+        (if (get-text-property (point) 'sem-type)
+            (sem-action/body)
+          (sem-insert/body)))
 
-(global-set-key (kbd "C-c M-v") 'sem-hydra)
+   (global-set-key (kbd "C-c M-v") 'sem-hydra)
 
 (defun sem-editmarks-to-org (&optional backend)
   "Convert sem editmarks in an org-file to org syntax for BACKEND.
