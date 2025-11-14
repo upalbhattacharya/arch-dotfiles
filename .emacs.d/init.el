@@ -1,4 +1,3 @@
-                                        ; Bootstrap elpaca
 (defvar elpaca-installer-version 0.11)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
@@ -532,10 +531,10 @@
   (citar-file-note-extensions '("org"))
   (org-cite-insert-processor 'citar)
   (org-cite-activate-processor 'citar)
-  (org-cite-follow-processor 'citar)
-  :hook
-  (LaTeX-mode . citar-capf-setup)
-  (org-mode . citar-capf-setup))
+  (org-cite-follow-processor 'citar))
+;; :hook
+;; (LaTeX-mode . citar-capf-setup)
+;; (org-mode . citar-capf-setup))
 
 (use-package citar-org-roam
   :demand t
@@ -553,6 +552,10 @@
   :ensure (:wait t :host github :repo "cpitlaudel/biblio.el")
   :config
   (setq biblio-download-directory "~/Downloads/"))
+
+(use-package seq
+  :ensure (:wait t)
+  :demand t)
 
 (use-package ebib
   :demand t
