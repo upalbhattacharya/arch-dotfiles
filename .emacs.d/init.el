@@ -1083,6 +1083,12 @@
   (setq pdf-view-use-scaling t)
   )
 
+(use-package projectile
+  :demand t
+  :ensure (:wait t :host github :repo "bbatsov/projectile")
+  :config
+  (setq projectile-mode +1))
+
 (setq treesit-language-source-alist
       '((python "https://github.com/tree-sitter/tree-sitter-python")))
 
